@@ -1,4 +1,8 @@
 import os
+<<<<<<< HEAD
+=======
+from matplotlib.gridspec import GridSpec
+>>>>>>> v3
 import matplotlib.pyplot as plt
 from datetime import datetime as dt
 
@@ -6,13 +10,21 @@ from mplfinance.original_flavor import candlestick_ohlc
 
 
 class Chart:
+<<<<<<< HEAD
     def __init__(self, df, levels, indi, candles, ticker, perInt):
+=======
+    def __init__(self, df, levels, indi, candles, filePath):
+>>>>>>> v3
         self.df = df
         self.indi = indi
         self.levels = levels
         self.candles = candles
+<<<<<<< HEAD
         self.ticker = ticker
         self.perInt = perInt
+=======
+        self.filePath = filePath
+>>>>>>> v3
         self.dirpath = os.path.dirname(__file__)
         self.plot()
 
@@ -20,8 +32,15 @@ class Chart:
 
         plt.ioff()
 
+<<<<<<< HEAD
         ax1 = plt.subplot2grid((8, 1), (0, 0), rowspan=5, colspan=1)
         ax2 = plt.subplot2grid((8, 1), (5, 0), rowspan=3, colspan=1, sharex=ax1)
+=======
+        fig = plt.figure(figsize=(20, 10))
+        gs = GridSpec(3, 1, height_ratios=[2, 1, 0], hspace=0)  # 2/3 and 1/3 ratio
+        ax1 = fig.add_subplot(gs[0])
+        ax2 = fig.add_subplot(gs[1])
+>>>>>>> v3
 
         candlestick_ohlc(
             ax1, self.df.values, width=0.7, colorup="green", colordown="red", alpha=0.8
@@ -44,6 +63,12 @@ class Chart:
             x=self.df["Date"], y=self.df["Sell"] * 1.01, s=30, c="red", marker="v"
         )
 
+<<<<<<< HEAD
+=======
+        # ax1.scatter(x=self.df["Date"],y=self.df["minSP"]*0.98,s=20,c="green",marker="D")
+        # ax1.scatter(x=self.df["Date"],y=self.df["maxSP"]*1.02,s=20,c="red",marker="D")
+
+>>>>>>> v3
         # Market Downturn
         ax1.scatter(
             x=self.df["Date"], y=self.df["Correction"], s=30, c="blue", marker="d"
@@ -103,20 +128,30 @@ class Chart:
                             color="#26a69a",
                         )
 
+<<<<<<< HEAD
         plt.tight_layout()
         plt.get_current_fig_manager().window.state("zoomed")
         plt.show(block=False)
         plt.pause(1)
 
+=======
+>>>>>>> v3
         folder = dt.strptime(dt.now().strftime("%Y-W%W") + "-1", "%G-W%V-%u").strftime(
             "%d-%b-%Y"
         )
         folpath = os.path.join(self.dirpath, "images", folder)
         if not os.path.exists(folpath):
             os.makedirs(folpath)
+<<<<<<< HEAD
         date = self.df[-1:].index[0].strftime("%d-%m-%Y")
         plt.savefig(
             os.path.join(folpath, date + "_" + self.ticker + "_" + self.perInt + ".png")
+=======
+        plt.savefig(
+            self.filePath,
+            dpi=300,
+            bbox_inches="tight",
+>>>>>>> v3
         )
 
     def scatterPlot(self, ax1):
