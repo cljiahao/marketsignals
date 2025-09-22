@@ -1,0 +1,12 @@
+{
+
+    "ticker" : {
+                "SG" : [
+                    "BUOU.SI"]
+    },
+
+    "periodInterval" : {
+                "Daily" : ["2y","1d"],
+                "Weekly" : ["5y","1wk"]
+    }
+}

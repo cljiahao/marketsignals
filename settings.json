@@ -1,0 +1,28 @@
+{
+
+    "SupNRes" : [],
+
+    "Trend" : [],
+
+    "Candles" : [],
+
+    "indicators" : {
+        "SMA" : [
+            {"length" : 20, "min_periods":"0", "append" : "True"},
+            {"length" : 50, "min_periods":"0", "append" : "True"},
+            {"length" : 100, "min_periods":"0", "append" : "True"},
+            {"length" : 200, "min_periods":"0", "append" : "True"}
+        ],
+        "MACD" : [
+            {"append" : "True",
+             "fast" : 12, 
+             "slow" : 26,
+             "signal" : 9}
+        ],
+        "RSI" : [
+            {"append" : "True"}
+        ]
+    }
+    
+}
+
