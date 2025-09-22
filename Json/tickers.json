@@ -1,0 +1,45 @@
+{
+  "ticker": {
+    "SG": {
+      "DBS": "D05.SI",
+      "OCBC": "O39.SI",
+      "UOB": "U11.SI",
+      "Lendlease": "JYEU.SI",
+      "FLCT": "BUOU.SI",
+      "Ascendas": "A17U.SI",
+      "FCT": "J69U.SI",
+      "MLT": "M44U.SI",
+      "KDC": "AJBU.SI",
+      "MIT": "ME8U.SI",
+      "iFast": "AIY.SI",
+      "Sheng Siong": "OV8.SI",
+      "Vicom": "WJP.SI",
+      "Nanofilm": "MZH.SI",
+      "Suntec": "T82U.SI",
+      "CICT": "C38U.SI",
+      "SGD-JPY": "SGDJPY=X",
+      "SGD-MYR": "SGDMYR=X"
+    },
+    "US": {
+      "Gold": "GC=F",
+      "S&P500": "SPY",
+      "Apple": "AAPL",
+      "BankofAmerica": "BAC",
+      "Microsoft": "MSFT",
+      "Google": "GOOG",
+      "Amazon": "AMZN",
+      "Nvidia": "NVDA",
+      "Disney": "DIS",
+      "AMD": "AMD",
+      "Alibaba": "BABA",
+      "Visa": "V",
+      "SalesForce": "CRM",
+      "Adobe": "ADBE"
+    }
+  },
+
+  "periodInterval": {
+    "Daily": ["2y", "1d"],
+    "Weekly": ["5y", "1wk"]
+  }
+}
