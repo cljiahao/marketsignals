@@ -1,0 +1,35 @@
+{
+
+    "ticker" : {
+                "SG" : ["D05.SI",
+                    "O39.SI",
+                    "JYEU.SI",
+                    "BUOU.SI",
+                    "A17U.SI",
+                    "J69U.SI",
+                    "M44U.SI",
+                    "AJBU.SI",
+                    "ME8U.SI",
+                    "AIY.SI",
+                    "OV8.SI",
+                    "WJP.SI",
+                    "MZH.SI"
+                ],
+                "US" : ["AAPL",
+                    "BAC",
+                    "MSFT",
+                    "GOOG",
+                    "AMZN",
+                    "NVDA",
+                    "DIS",
+                    "AMD",
+                    "BABA",
+                    "V"
+                ]
+    },
+
+    "periodInterval" : {
+                "Daily" : ["2y","1d"],
+                "Weekly" : ["5y","1wk"]
+    }
+}
