@@ -76,14 +76,14 @@ def main():
             ticker=ticker,
             signal=final_signal,
             reasons=[f"Daily: {sig_daily.signal}", f"Weekly: {sig_weekly.signal}"],
-            entry_range=sig_daily.entry_range,
+            entry_range=sig_weekly.entry_range,
             last_close=sig_daily.last_close,
-            atr=sig_daily.atr,
+            atr=sig_weekly.atr,
         )
 
         results.append({"daily": sig_daily, "weekly": sig_weekly, "combined": combined})
 
-    print_signals_multi_tf(results, scores_only=False)
+    print_signals_multi_tf(results, scores_only=True)
 
 
 if __name__ == "__main__":
