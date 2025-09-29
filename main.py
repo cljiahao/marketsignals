@@ -45,45 +45,46 @@ def prepare_df(df: pd.DataFrame):
 
 def main():
 
-    tickers = sg_tickers + us_tickers
+    for tickers in [sg_tickers, us_tickers]:
 
-    df_daily = yf.download(
-        tickers, period="2y", interval="1d", group_by="ticker", auto_adjust=True
-    )
-    df_weekly = yf.download(
-        tickers, period="5y", interval="1wk", group_by="ticker", auto_adjust=True
-    )
-
-    results = []
-
-    for ticker in tickers:
-        prep_daily_df = prepare_df(df_daily[ticker])
-        prep_weekly_df = prepare_df(df_weekly[ticker])
-
-        sig_daily = generate_signal(prep_daily_df)
-        sig_weekly = generate_signal(prep_weekly_df)
-
-        # Combine signals (simple rule: both need to be BUY for strong BUY)
-        if sig_daily.signal == "BUY" and sig_weekly.signal == "BUY":
-            final_signal = "BUY"
-        elif sig_daily.signal == "SELL" and sig_weekly.signal == "SELL":
-            final_signal = "SELL"
-        else:
-            final_signal = "HOLD"
-
-        combined = Signal(
-            short_name=yf.Ticker(ticker).info.get("shortName", ticker),
-            ticker=ticker,
-            signal=final_signal,
-            reasons=[f"Daily: {sig_daily.signal}", f"Weekly: {sig_weekly.signal}"],
-            entry_range=sig_weekly.entry_range,
-            last_close=sig_daily.last_close,
-            atr=sig_weekly.atr,
+        df_daily = yf.download(
+            tickers, period="2y", interval="1d", group_by="ticker", auto_adjust=True
+        )
+        df_weekly = yf.download(
+            tickers, period="5y", interval="1wk", group_by="ticker", auto_adjust=True
         )
 
-        results.append({"daily": sig_daily, "weekly": sig_weekly, "combined": combined})
+        results = []
+        for ticker in tickers:
+            prep_daily_df = prepare_df(df_daily[ticker])
+            prep_weekly_df = prepare_df(df_weekly[ticker])
 
-    print_signals_multi_tf(results, scores_only=True)
+            sig_daily = generate_signal(prep_daily_df)
+            sig_weekly = generate_signal(prep_weekly_df)
+
+            # Combine signals (simple rule: both need to be BUY for strong BUY)
+            if sig_daily.signal == "BUY" and sig_weekly.signal == "BUY":
+                final_signal = "BUY"
+            elif sig_daily.signal == "SELL" and sig_weekly.signal == "SELL":
+                final_signal = "SELL"
+            else:
+                final_signal = "HOLD"
+
+            combined = Signal(
+                short_name=yf.Ticker(ticker).info.get("shortName", ticker),
+                ticker=ticker,
+                signal=final_signal,
+                reasons=[f"Daily: {sig_daily.signal}", f"Weekly: {sig_weekly.signal}"],
+                entry_range=sig_weekly.entry_range,
+                last_close=sig_daily.last_close,
+                atr=sig_weekly.atr,
+            )
+
+            results.append(
+                {"daily": sig_daily, "weekly": sig_weekly, "combined": combined}
+            )
+
+        print_signals_multi_tf(results, scores_only=True)
 
 
 if __name__ == "__main__":

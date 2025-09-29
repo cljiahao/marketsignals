@@ -13,7 +13,7 @@ def print_signals_multi_tf(results: list[dict], scores_only: bool = False):
         )
         print(f"  Last close: {c.last_close}, ATR: {c.atr}")
         print(
-            f"  Suggested entry range (from daily): {c.entry_range[0]:.2f} — {c.entry_range[1]:.2f}"
+            f"  Suggested entry range (from weekly): {c.entry_range[0]:.2f} — {c.entry_range[1]:.2f}"
         )
         if not scores_only:
             print("  Daily reasons:")
