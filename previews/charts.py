@@ -1,30 +1,58 @@
-import pandas as pd
 import matplotlib.pyplot as plt
+import pandas as pd
 
 
-def plot_chart(df: pd.DataFrame):
+def plot_ohlc_chart(df: pd.DataFrame):
+    """
+    Plot an OHLC candlestick chart.
+
+    Expects df to have columns: Date, Open, High, Low, Close
+    """
     df.index = pd.to_datetime(df["Date"])
 
-    # Buy Sell decisions
     plt.figure(figsize=(12, 6))
-    plt.plot(df.index, df["equity"], label="Equity Curve", color="green")
-    plt.scatter(
-        df.index[df["signal"] == "BUY"],
-        df["Close"][df["signal"] == "BUY"] + 95000,
-        color="blue",
-        marker="^",
-        label="BUY",
+
+    # Width of candlestick
+    width = 3
+
+    # Up and down colors
+    up = df[df["Close"] > df["Open"]]
+    down = df[df["Close"] < df["Open"]]
+    doji = df[df["Close"] == df["Open"]]
+
+    # Plot high-low lines
+    plt.vlines(df.index, df["Low"], df["High"], color="black", linewidth=0.5, zorder=1)
+
+    # Plot up candlesticks (green)
+    plt.bar(
+        up.index,
+        up["Close"] - up["Open"],
+        width,
+        bottom=up["Open"],
+        color="green",
     )
-    plt.scatter(
-        df.index[df["signal"] == "SELL"],
-        df["Close"][df["signal"] == "SELL"] + 95000,
+
+    # Plot down candlesticks (red)
+    plt.bar(
+        down.index,
+        down["Close"] - down["Open"],
+        width,
+        bottom=down["Open"],
         color="red",
-        marker="v",
-        label="SELL",
     )
-    plt.title("Equity Curve with Trades")
+
+    # Plot doji candlesticks (black)
+    plt.bar(
+        doji.index,
+        1,
+        width,
+        bottom=doji["Open"],
+        color="black",
+    )
+
+    plt.title("OHLC Candlestick Chart")
     plt.xlabel("Date")
-    plt.ylabel("Equity")
-    plt.legend()
-    plt.grid(True)
+    plt.ylabel("Price")
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
     plt.show()

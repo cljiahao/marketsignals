@@ -1,9 +1,9 @@
 import datetime
 
 
-def print_signals_multi_tf(results: list[dict], scores_only: bool = False):
+def print_signals_multi_tf(results: list[dict], region: str, scores_only: bool = False):
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-    print(f"TA Multi-Timeframe Signal Report — generated {now}\n")
+    print(f"TA Multi-Timeframe Signal Report {region} Market — generated {now}\n")
     for r in results:
         c = r["combined"]
         d = r["daily"]

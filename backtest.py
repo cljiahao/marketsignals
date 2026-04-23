@@ -5,7 +5,7 @@ import yfinance as yf
 from scoring.candlesticks import get_candlestick_score
 from scoring.oscillators import get_macd_score, get_obv_slope_score, get_rsi_score
 from scoring.overlays import get_bb_score, get_ma_cross_score, get_volume_sma20_score
-from test import prepare_df
+from simulation import prepare_df
 
 
 def generate_signals_backtest(

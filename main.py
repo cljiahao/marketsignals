@@ -45,7 +45,7 @@ def prepare_df(df: pd.DataFrame):
 
 def main():
 
-    for tickers in [sg_tickers, us_tickers]:
+    for region, tickers in {"SG": sg_tickers, "US": us_tickers}.items():
 
         df_daily = yf.download(
             tickers, period="2y", interval="1d", group_by="ticker", auto_adjust=True
@@ -62,10 +62,19 @@ def main():
             sig_daily = generate_signal(prep_daily_df)
             sig_weekly = generate_signal(prep_weekly_df)
 
-            # Combine signals (simple rule: both need to be BUY for strong BUY)
-            if sig_daily.signal == "BUY" and sig_weekly.signal == "BUY":
+            # Combine signals
+            combined_confidence = (
+                0.6 * sig_daily.confidence + 0.4 * sig_weekly.confidence
+            )
+
+            # Map combined confidence to final signal
+            if combined_confidence >= 0.75:
+                final_signal = "STRONG BUY"
+            elif combined_confidence >= 0.60:
                 final_signal = "BUY"
-            elif sig_daily.signal == "SELL" and sig_weekly.signal == "SELL":
+            elif combined_confidence <= 0.25:
+                final_signal = "STRONG SELL"
+            elif combined_confidence <= 0.40:
                 final_signal = "SELL"
             else:
                 final_signal = "HOLD"
@@ -74,6 +83,7 @@ def main():
                 short_name=yf.Ticker(ticker).info.get("shortName", ticker),
                 ticker=ticker,
                 signal=final_signal,
+                confidence=round(combined_confidence, 4),
                 reasons=[f"Daily: {sig_daily.signal}", f"Weekly: {sig_weekly.signal}"],
                 entry_range=sig_weekly.entry_range,
                 last_close=sig_daily.last_close,
@@ -84,7 +94,7 @@ def main():
                 {"daily": sig_daily, "weekly": sig_weekly, "combined": combined}
             )
 
-        print_signals_multi_tf(results, scores_only=True)
+        print_signals_multi_tf(results, region, scores_only=False)
 
 
 if __name__ == "__main__":

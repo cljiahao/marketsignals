@@ -97,11 +97,12 @@ class Overlays:
         matched = []
         for price in mid_body:
             # find all levels within tolerance
-            close_levels = [lvl for lvl in levels if abs(price - lvl) <= price * 0.05]
+            distances = [abs(price - lvl) for lvl in levels]
+            nearest_idx = np.argmin(distances)
+            nearest_dist = distances[nearest_idx]
 
-            if close_levels:
-                nearest = min(close_levels, key=lambda x: abs(price - x))
-                matched.append(nearest)
+            if nearest_dist <= price * 0.05:
+                matched.append(levels[nearest_idx])
             else:
                 matched.append(np.nan)
 

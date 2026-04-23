@@ -39,6 +39,7 @@ def get_macd_score(current: pd.DataFrame, previous: pd.DataFrame) -> tuple[float
     diff_delta = diff - diff_prev
 
     hist_delta = hist - hist_prev
+    strength = min(abs(hist_delta) / abs(hist_prev + 1e-6), 2)  # cap at 2x change
 
     # primary bullish / bearish signals
     macd_above = diff > 0
@@ -63,6 +64,20 @@ def get_macd_score(current: pd.DataFrame, previous: pd.DataFrame) -> tuple[float
             score, label = 0.45, "Neutral Bearish"
         else:
             score, label = 0.5, "Neutral"
+
+    # Momentum weakening adjustment
+    if macd_above and hist_delta < 0:
+        score -= 0.1
+        label += " (weakening momentum)"
+    elif not macd_above and hist_delta > 0:
+        score += 0.1
+        label += " (bearish losing momentum)"
+
+    # Strength scaling
+    hist_change = abs(hist_delta)
+    strength = min(hist_change / (abs(hist_prev) + 1e-6), 2.0)
+    score = 0.5 + (score - 0.5) * strength
+    score = max(0.0, min(1.0, score))
 
     reason = f"prev_diff={diff_prev:.4f}, curr_diff={diff:.4f}, hist_delta={hist_delta:.4f} : {label}"
     return score, reason
